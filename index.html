@@ -11,6 +11,8 @@
         rel="stylesheet">
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -41,7 +43,7 @@
             <div class="inputs">
                 <div class="input-group">
                     <label" for="">Departure</label>
-                    <input class="inp-style" type="date" name="">
+                        <input class="inp-style" type="date" name="">
                 </div>
                 <div class="input-group">
                     <label for="">Return</label>
@@ -51,20 +53,27 @@
             <div class="input-group f-class">
                 <div>
                     <label for="">First Class ($150)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <h5>$ <span id="FirstClassPrice">0</span></h5>
+                    <input id="FirstClassticketNumber" type="text" class="form-control text-center" value="0">
                 </div>
                 <div class="plus-minus-btn">
-                    <p>+ -</p>
+                    <p><button onclick="handleflightTicketChange('FirstClass', true)" class="btn btn-default"><i
+                                class="fas fa-plus"></i></button> <button
+                            onclick="handleflightTicketChange('FirstClass', false)" class="btn btn-default"><i
+                                class="fas fa-minus"></i></button></p>
                 </div>
             </div>
-            
             <div class="input-group f-class">
                 <div>
                     <label for="">Economy ($100)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <h5>$ <span id="EconomyPrice">0</span></h5>
+                    <input id="EconomyticketNumber" type="text" class="form-control text-center" value="0">
                 </div>
                 <div class="plus-minus-btn">
-                    <p> <span>+</span> <span>-</span> </p>
+                    <p> <span><button onclick="handleflightTicketChange('Economy', true)" class="btn btn-default"><i
+                                    class="fas fa-plus"></i></button></span> <span><button
+                                onclick="handleflightTicketChange('Economy', false)" class="btn btn-default"><i
+                                    class="fas fa-minus"></i></button></span> </p>
                 </div>
             </div>
             <div class="calculations">
@@ -73,16 +82,15 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <h5>$ <span id="subTotalPrice">0</span></h5>
                     </div>
                 </div>
-
                 <div class="amount">
                     <div class="left">
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <h5>$<span id="tax">0</span></h5>
                     </div>
                 </div>
                 <hr>
@@ -91,20 +99,62 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <h5>$ <span id="grandTotal">0</span></h5>
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button onclick="bookNow()" class="btn-style">Book Now</button>
         </div>
-
         <div class="booking-content">
             <h1>discover <br> around the world</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicingelit. Provident voluptatibus quam fuga laborumalias veniam libero autem quasi maxime ullam vero nama imi dolor, architecto ab facilis eaque deserunt nobise voluptatibus quam</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicingelit. Provident voluptatibus quam fuga laborumalias
+                veniam libero autem quasi maxime ullam vero nama imi dolor, architecto ab facilis eaque deserunt nobise
+                voluptatibus quam</p>
         </div>
-    </section>
-
-    <!--Thank You-->
+        
+        <!--JavaScript Code Section-->
+        <script>
+            function handleflightTicketChange(flightTicket, isIncrease) {
+                const flightTicketNumber = getInputValue(flightTicket);
+                let flightTicketTotalNumber = flightTicketNumber;
+                if (isIncrease == true) {
+                    flightTicketTotalNumber = flightTicketNumber + 1;
+                }
+                if (isIncrease == false && flightTicketNumber > 0) {
+                    flightTicketTotalNumber = flightTicketNumber - 1;
+                }
+                document.getElementById(flightTicket + 'ticketNumber').value = flightTicketTotalNumber;
+                let flightTicketTotalPrice;
+                if (flightTicket == 'FirstClass') {
+                    flightTicketTotalPrice = 150 * flightTicketTotalNumber;
+                }
+                else {
+                    flightTicketTotalPrice = 100 * flightTicketTotalNumber;
+                }
+                document.getElementById(flightTicket + 'Price').innerText = flightTicketTotalPrice;
+                calculateTotal();
+            }
+            function calculateTotal() {
+                const FirstClassCount = getInputValue('FirstClass');
+                const EconomyCount = getInputValue('Economy');
+                const TotalPrice = FirstClassCount * 150 + EconomyCount * 100;
+                document.getElementById('subTotalPrice').innerText = TotalPrice;
+                const tax = Math.round(TotalPrice * 0.1);
+                document.getElementById('tax').innerText = tax;
+                const grandTotal = TotalPrice + tax;
+                document.getElementById('grandTotal').innerText = grandTotal;
+            }
+            function getInputValue(flightTicket) {
+                const flightTicketInput = document.getElementById(flightTicket + 'ticketNumber');
+                const flightTicketCount = parseInt(flightTicketInput.value);
+                return flightTicketCount;
+            }
+            function bookNow() {   
+                alert('Are you confirm to book now!')
+                
+            }
+        </script>
+        <!--Thank You-->
 </body>
 
 </html>
