@@ -111,7 +111,7 @@
                 veniam libero autem quasi maxime ullam vero nama imi dolor, architecto ab facilis eaque deserunt nobise
                 voluptatibus quam</p>
         </div>
-        
+
         <!--JavaScript Code Section-->
         <script>
             function handleflightTicketChange(flightTicket, isIncrease) {
@@ -149,9 +149,20 @@
                 const flightTicketCount = parseInt(flightTicketInput.value);
                 return flightTicketCount;
             }
-            function bookNow() {   
-                alert('Are you confirm to book now!')
-                
+            function bookNow() {
+                const FirstClassCount = getInputValue('FirstClass');
+                const EconomyCount = getInputValue('Economy');
+                const TotalPrice = FirstClassCount * 150 + EconomyCount * 100;
+                document.getElementById('subTotalPrice').innerText = TotalPrice;
+                const tax = Math.round(TotalPrice * 0.1);
+                document.getElementById('tax').innerText = tax;
+                const grandTotal = TotalPrice + tax;
+                document.getElementById('grandTotal').innerText = grandTotal;
+                alert('Number of First Class Ticket is ' + FirstClassCount + "\n" +
+                    'Number of Economy Ticket is ' + EconomyCount + "\n" +
+                    'Sub Total Price is ' + TotalPrice + "\n" +
+                    'Total Tax is ' + tax + "\n"
+                    + 'Total Price is ' + grandTotal);
             }
         </script>
         <!--Thank You-->
